@@ -10,3 +10,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Order(models.Model):
+    products = models.ManyToManyField(Product, related_name="orders")
+    total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def calculate_total_price(self):
+        return sum(product.price for product in self.products.all())
+
+    def save(self, *args, **kwargs):
+        if not self.total_price:
+            self.total_price = self.calculate_total_price()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Order #{self.id} - {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"

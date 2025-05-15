@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 
 # Create your views here.
 
+# CURD of Product Data
+
 @api_view(['GET'])
 def get_product(request,id = None):
     try:
@@ -36,7 +38,6 @@ def insert_product(request):
     except Exception as e:
         return Response({"message": str(e)})
 
-
 @api_view(["PUT"])
 def update_product(request,id):
     try:
@@ -49,7 +50,6 @@ def update_product(request,id):
             return Response({"message": serializers.errors})
     except Exception as e:
         return Response({"message": str(e)})
-
 
 @api_view(["DELETE"])
 def delete_product(request,id):
