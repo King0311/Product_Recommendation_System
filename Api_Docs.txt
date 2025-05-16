@@ -1,0 +1,194 @@
+Hi this is the hand written Api Documentation which will help you guys to test the Apis
+
+########################################################################################
+
+Product Apis
+
+insert_product/
+
+    This Api insert the product in the database.
+    Request Method: POST
+    Request Body:   [{
+                        "name": "Air City",
+                        "description": "Particularly friend lead community gas remember set. Make no idea television decision well hundred. Especially administration together.",
+                        "price": "595.79"
+                    }]
+    Response: {
+                    "message": [
+                        {
+                            "id": 106,
+                            "name": "Air City",
+                            "description": "Particularly friend lead community gas remember set. Make no idea television decision well hundred. Especially administration together.",
+                            "price": "599.79",
+                            "created_at": "2025-05-16T07:06:15.863465Z",
+                            "updated_at": "2025-05-16T07:06:15.863465Z"
+                        }
+                    ]
+                }
+
+
+get_product/ OR get_product/<int:id>/
+    This Api get the product from the database.
+    Request Method: GET
+    Request Body: None
+    Response: [
+                {
+                    "id": 56,
+                    "name": "Something Finish",
+                    "description": "Fear much spend market. Important west feel wait whatever magazine keep. Where term hand make.",
+                    "price": "745.20",
+                    "created_at": "2025-05-15T05:15:38.542549Z",
+                    "updated_at": "2025-05-15T05:15:38.542549Z"
+                },
+                {
+                    "id": 57,
+                    "name": "Tv Value",
+                    "description": "Me president west could yourself bit rate beyond. Sit top learn either pattern thousand politics. Senior fill father class.",
+                    "price": "470.97",
+                    "created_at": "2025-05-15T05:15:38.549205Z",
+                    "updated_at": "2025-05-15T05:15:38.549205Z"
+                },
+                .........
+            ]
+
+update_product/<int:id>/
+    This Api update the product in the database.
+    Request Method: PUT
+    Request Body : {
+                        "name": "Something Finish Also",
+                        "description": "Fear much spend market. Important west feel wait whatever magazine keep. Where term hand make.",
+                        "price": "745.20"
+                    }
+    Response: {
+                    "message": {
+                        "id": 56,
+                        "name": "Something Finish Also",
+                        "description": "Fear much spend market. Important west feel wait whatever magazine keep. Where term hand make.",
+                        "price": "745.20",
+                        "created_at": "2025-05-15T05:15:38.542549Z",
+                        "updated_at": "2025-05-16T07:11:45.069116Z"
+                    }
+                }
+
+delete_product/<int:id>/
+    This Api delete the product from the database.
+    Request Method: DELETE
+    Request Body: None
+    Response: {
+                    "message": "Product deleted successfully"
+                }
+
+########################################################################################
+
+Orders Apis
+
+insert_order/
+
+    This Api insert the order in the database.
+    Request Method: POST
+    Request Body:   [
+                    {
+                        "products": [
+                            61, #this are the id of product
+                            74 
+                        ]
+                    }
+                    ]
+    Response: {
+            "message": [
+                            {
+                                "id": 64,
+                                "total_price": "1005.08",
+                                "created_at": "2025-05-16T07:29:58.027280Z",
+                                "products": [
+                                    61,
+                                    74
+                                ]
+                            }
+                        ]
+                    }
+
+
+get_order/ OR get_order/<int:id>/
+    This Api get the order from the database.
+    Request Method: GET
+    Request Body: None
+    Response: [
+                {
+                    "id": 9,
+                    "total_price": "470.97",
+                    "created_at": "2025-05-16T04:07:12.427535Z",
+                    "products": [
+                        57
+                    ]
+                },
+                {
+                    "id": 10,
+                    "total_price": "832.35",
+                    "created_at": "2025-05-16T04:07:12.447977Z",
+                    "products": [
+                        64,
+                        74,
+                        78,
+                        102
+                    ]
+                },
+                ...............
+                ]
+
+update_order/<int:id>/
+    This Api update the order in the database.
+    Request Method: PUT
+    Request Body :  {
+                        "products": [
+                            57,64
+                        ]
+                    }
+    Response: {
+                    "message": {
+                        "id": 9,
+                        "total_price": "1066.76",
+                        "created_at": "2025-05-16T04:07:12.427535Z",
+                        "products": [
+                            57,
+                            64
+                        ]
+                    }
+                }
+
+
+
+delete_product/<int:id>/
+    This Api delete the Order from the database.
+    Request Method: DELETE
+    Request Body: None
+    Response: {
+                    "message": "Order deleted successfully"
+                }
+
+########################################################################################
+
+Recommendation Api
+
+recommend_products/<int:id>
+    This Api give the top three Recommendation of the product based on pervious orders
+    Request Method: GET
+    Request Body: None
+    Response: {
+                "recommendations": [
+                    {
+                        "product_id": 59,
+                        "count": 3
+                    },
+                    {
+                        "product_id": 74,
+                        "count": 2
+                    },
+                    {
+                        "product_id": 78,
+                        "count": 2
+                    }
+                ]
+            }
+
+########################################################################################

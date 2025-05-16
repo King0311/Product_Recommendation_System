@@ -84,12 +84,14 @@ def get_order(request, id=None):
 @api_view(["POST"])
 def insert_order(request):
     try:
-        price = 0
-        for item in request.data[0]["products"]:
-            product_detial = Product.objects.get(id = item)
-            price += float(product_detial.price)
+        # breakpoint()
+        for i in request.data:
+            price = 0
+            for item in i["products"]:
+                product_detial = Product.objects.get(id = item)
+                price += float(product_detial.price)
 
-        request.data[0]["total_price"] = str(price)
+            i["total_price"] = f"{price:.2f}"
         serializers = Order_Serializer(data=request.data, many=True)
         if serializers.is_valid():
             serializers.save()
