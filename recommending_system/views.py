@@ -1,6 +1,7 @@
-from django.shortcuts import render
 from .models import *
 from .serializers import *
+from rest_framework import status
+from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -20,9 +21,9 @@ def get_product(request,id = None):
         if serializer.data:
             return Response(serializer.data)
         else:
-            return Response({'error': 'No products found'})
+            return Response({'error': 'No products found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response({"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 def insert_product(request):
@@ -34,9 +35,9 @@ def insert_product(request):
         else:
             return Response({
                 "message" : serializers.errors
-            })
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response({"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["PUT"])
 def update_product(request,id):
@@ -47,9 +48,9 @@ def update_product(request,id):
             serializers.save()
             return Response({'message': serializers.data})
         else:
-            return Response({"message": serializers.errors})
+            return Response({"message": serializers.errors}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response({"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["DELETE"])
 def delete_product(request,id):
@@ -76,9 +77,9 @@ def get_order(request, id=None):
         if serializer.data:
             return Response(serializer.data)
         else:
-            return Response({"error": "No orders found"})
+            return Response({"error": "No orders found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response({"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["POST"])
 def insert_order(request):
@@ -94,9 +95,9 @@ def insert_order(request):
             serializers.save()
             return Response({"message": serializers.data})
         else:
-            return Response({"message": serializers.errors})
+            return Response({"message": serializers.errors}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response({"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["PUT"])
 def update_order(request, id):
@@ -116,9 +117,9 @@ def update_order(request, id):
             serializers.save()
             return Response({"message": serializers.data})
         else:
-            return Response({"message": serializers.errors})
+            return Response({"message": serializers.errors}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response({"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(["DELETE"])
 def delete_order(request, id):
@@ -127,7 +128,9 @@ def delete_order(request, id):
         order_to_delete.delete()
         return Response({"message": "Order deleted successfully"})
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response(
+            {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 
 # Recommendation Code
@@ -147,7 +150,7 @@ def recommend_products(request,id):
                         mapper[product] = 1
 
         if not mapper:
-            return Response({"message": "No recommendations found."})
+            return Response({"message": "No recommendations found."}, status=status.HTTP_404_NOT_FOUND)
 
         top_n = sorted(mapper.items(), key=lambda x: x[1], reverse=True)[:3]
         return Response({
@@ -155,4 +158,6 @@ def recommend_products(request,id):
         })
 
     except Exception as e:
-        return Response({"message": str(e)})
+        return Response(
+            {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
