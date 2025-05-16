@@ -15,4 +15,7 @@ urlpatterns = [
     path("insert_order/", views.insert_order),
     path("update_order/<int:id>/", views.update_order),
     path("delete_order/<int:id>/", views.delete_order),
+    #############################################################
+    path("recommend_products/<int:id>", views.recommend_products),
+    
 ]

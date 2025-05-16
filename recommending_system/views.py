@@ -128,3 +128,31 @@ def delete_order(request, id):
         return Response({"message": "Order deleted successfully"})
     except Exception as e:
         return Response({"message": str(e)})
+
+
+# Recommendation Code
+
+@api_view(["GET"])
+def recommend_products(request,id):
+    try:
+        mapper = {}
+        orders_with_this_product = Order.objects.filter(products__id=id)
+        orders_with_this_product = Order_Serializer(orders_with_this_product, many=True)
+        for order in orders_with_this_product.data:
+            for product in order["products"]:
+                if product != id:
+                    if product in mapper:
+                        mapper[product] += 1
+                    else:
+                        mapper[product] = 1
+
+        if not mapper:
+            return Response({"message": "No recommendations found."})
+
+        top_n = sorted(mapper.items(), key=lambda x: x[1], reverse=True)[:3]
+        return Response({
+            "recommendations": [{"product_id": pid, "count": count} for pid, count in top_n]
+        })
+
+    except Exception as e:
+        return Response({"message": str(e)})
