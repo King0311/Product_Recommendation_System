@@ -11,3 +11,8 @@ class Product_Serializer(serializers.ModelSerializer):
         if price <= 0:
             raise serializers.ValidationError("Price must be greater than 0")
         return data
+    
+class Order_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = "__all__"
