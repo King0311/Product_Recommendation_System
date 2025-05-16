@@ -4,6 +4,8 @@ from rest_framework import routers
 
 
 urlpatterns = [
+    path("",views.home),
+    #############################################################
     path("get_product/", views.get_product),
     path("get_product/<int:id>/", views.get_product),
     path("insert_product/", views.insert_product),

@@ -9,7 +9,7 @@ django.setup()
 from recommending_system.models import (
     Order,
     Product,
-)  # Update if your app is named differently
+)  
 
 
 def create_random_orders(n=10):

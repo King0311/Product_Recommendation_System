@@ -5,11 +5,16 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+
 # Create your views here.
+@api_view(["GET"])
+def home(request):
+    return Response({"message": "Hello, world!"}, status=status.HTTP_200_OK)
 
 # CURD of Product Data
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def get_product(request,id = None):
     try:
         if id :
